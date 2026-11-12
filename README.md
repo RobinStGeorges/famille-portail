@@ -41,10 +41,10 @@ npm run check     # vérification des types
 npm run build     # génère dist/
 ```
 
-## Déploiement (Cloudflare Pages)
+## Déploiement (Cloudflare Workers, fichiers statiques)
 
 - Dépôt GitHub connecté, branche de production : `main`
-- Build command : `npm run build` — Output directory : `dist`
+- Build command : `npm run build` — Deploy command : `npx wrangler deploy` (config : `wrangler.jsonc`)
 - Le fichier `.node-version` fixe la version de Node utilisée par Cloudflare.
 
 ## Choix techniques

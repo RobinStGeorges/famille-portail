@@ -11,7 +11,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "famille-core": "git+https://github.com/RobinStGeorges/famille-core.git#v0.1.0",
+    "famille-core": "github:RobinStGeorges/famille-core#v0.1.1",
     "firebase": "^13.3.0"
   },
   "devDependencies": {
