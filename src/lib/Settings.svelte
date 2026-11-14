@@ -3,7 +3,6 @@
     createInvite,
     formatInviteCode,
     getThemeChoice,
-    leaveFamily,
     setThemeChoice,
     signOutUser,
     toFrenchMessage,
@@ -59,18 +58,6 @@
     }
   }
 
-  async function leave() {
-    if (!confirm('Quitter cet espace familial ? Vous pourrez le rejoindre à nouveau avec un nouveau code.')) return;
-    error = '';
-    busy = true;
-    try {
-      await leaveFamily(familyId);
-    } catch (e) {
-      error = toFrenchMessage(e);
-      busy = false;
-    }
-  }
-
   const themes: { id: ThemeChoice; label: string }[] = [
     { id: 'auto', label: 'Auto' },
     { id: 'light', label: 'Clair' },
@@ -115,11 +102,10 @@
         {invite ? 'Générer un autre code' : 'Inviter un membre'}
       </button>
     {:else}
-      <button class="fc-btn fc-btn-danger fc-btn-block" type="button" onclick={leave} disabled={busy}>
-        Quitter l'espace familial
-      </button>
+      <p class="fc-muted" style="margin: 0">Seul le propriétaire de la famille peut créer des codes d'invitation.</p>
     {/if}
     {#if error}<p class="fc-error" role="alert">{error}</p>{/if}
+    <a class="fc-btn fc-btn-block" href="#/familles">🏠 Mes familles : changer, créer, rejoindre, quitter</a>
   </section>
 
   <section class="fc-card stack">

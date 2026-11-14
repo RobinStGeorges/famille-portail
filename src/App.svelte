@@ -1,22 +1,30 @@
 <script lang="ts">
   import { session } from 'famille-core';
-  import Login from './lib/Login.svelte';
-  import Onboarding from './lib/Onboarding.svelte';
+  import FamilyChooser from './lib/FamilyChooser.svelte';
   import Home from './lib/Home.svelte';
+  import Login from './lib/Login.svelte';
   import Settings from './lib/Settings.svelte';
   import UpdateBanner from './lib/UpdateBanner.svelte';
 
-  function viewFromHash(): 'home' | 'settings' {
-    return location.hash === '#reglages' ? 'settings' : 'home';
+  type View = 'home' | 'settings' | 'families';
+
+  function viewFromHash(): View {
+    if (location.hash === '#/reglages') return 'settings';
+    if (location.hash === '#/familles') return 'families';
+    return 'home';
   }
 
-  let view = $state(viewFromHash());
+  let view = $state<View>(viewFromHash());
 
   $effect(() => {
     const onHash = () => (view = viewFromHash());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   });
+
+  const backHome = () => {
+    location.hash = '#/';
+  };
 </script>
 
 <UpdateBanner />
@@ -29,7 +37,10 @@
 {:else if $session.status === 'signedOut'}
   <Login />
 {:else if $session.status === 'noFamily'}
-  <Onboarding displayName={$session.displayName} />
+  <!-- Aucune famille choisie : on propose celles de la personne (ou d'en créer / rejoindre une). -->
+  <FamilyChooser displayName={$session.displayName} canClose={false} onDone={backHome} />
+{:else if view === 'families'}
+  <FamilyChooser displayName={$session.displayName} canClose={true} onDone={backHome} />
 {:else if view === 'settings'}
   <Settings
     familyId={$session.familyId}

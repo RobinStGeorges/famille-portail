@@ -26,7 +26,7 @@
   <header class="row spread">
     <div>
       <h1>Bonjour {displayName} 👋</h1>
-      <div class="fc-muted">{familyName}</div>
+      <a class="family-switch" href="#/familles" aria-label={`Famille ${familyName} : changer de famille`}>🏠 {familyName} <span aria-hidden="true">⇄</span></a>
     </div>
     <a class="fc-btn" href="#reglages" aria-label="Réglages" style="min-width: 52px; padding: 0">⚙️</a>
   </header>

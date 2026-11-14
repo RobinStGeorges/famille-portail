@@ -1,6 +1,6 @@
 {
   "name": "famille-portail",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Portail familial : connexion, espace familial, catalogue des mini-applications",
@@ -8,10 +8,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run"
   },
   "dependencies": {
-    "famille-core": "git+https://github.com/RobinStGeorges/famille-core.git#v0.1.1",
+    "famille-core": "git+https://github.com/RobinStGeorges/famille-core.git#v0.2.0",
     "firebase": "^13.3.0"
   },
   "devDependencies": {
@@ -20,6 +21,8 @@
     "svelte-check": "^4.7.8",
     "typescript": "~6.0.3",
     "vite": "^8.3.8",
-    "vite-plugin-pwa": "^2.0.0"
+    "vite-plugin-pwa": "^2.0.0",
+    "jsdom": "^31.0.0",
+    "vitest": "^5.1.0"
   }
 }
