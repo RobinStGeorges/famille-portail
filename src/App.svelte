@@ -9,7 +9,8 @@
   type View = 'home' | 'settings' | 'families';
 
   function viewFromHash(): View {
-    if (location.hash === '#/reglages') return 'settings';
+    // « #reglages » (ancienne forme) reste accepté pour les favoris déjà enregistrés.
+    if (location.hash === '#/reglages' || location.hash === '#reglages') return 'settings';
     if (location.hash === '#/familles') return 'families';
     return 'home';
   }

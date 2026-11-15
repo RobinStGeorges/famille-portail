@@ -68,7 +68,7 @@
 <div class="stack">
   <header class="row spread">
     <h1>Réglages</h1>
-    <a class="fc-btn" href="#accueil">← Accueil</a>
+    <a class="fc-btn" href="#/">← Accueil</a>
   </header>
 
   <section class="fc-card stack">

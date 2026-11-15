@@ -28,7 +28,7 @@
       <h1>Bonjour {displayName} 👋</h1>
       <a class="family-switch" href="#/familles" aria-label={`Famille ${familyName} : changer de famille`}>🏠 {familyName} <span aria-hidden="true">⇄</span></a>
     </div>
-    <a class="fc-btn" href="#reglages" aria-label="Réglages" style="min-width: 52px; padding: 0">⚙️</a>
+    <a class="fc-btn" href="#/reglages" aria-label="Réglages" style="min-width: 52px; padding: 0">⚙️</a>
   </header>
 
   {#if !loaded}
