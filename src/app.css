@@ -116,6 +116,12 @@ h2 { font-size: 1.15rem; margin: 0 0 0.6rem; }
 .member { display: flex; justify-content: space-between; padding: 0.45rem 0; border-bottom: 1px solid var(--fc-border); }
 .member:last-child { border-bottom: none; }
 .badge { font-size: 0.78rem; color: var(--fc-muted); }
+.family-color-setting { display: flex; flex-direction: column; gap: 0.5rem; }
+.family-color-palette { display: flex; flex-wrap: wrap; gap: 0.65rem; padding: 0.25rem 0; }
+.family-color-swatch { width: 42px; height: 42px; border-radius: 50%; border: 3px solid var(--fc-surface); background: var(--swatch); box-shadow: 0 0 0 1px var(--fc-border); cursor: pointer; }
+.family-color-swatch.selected { outline: 3px solid var(--fc-primary); outline-offset: 2px; }
+.family-color-swatch:disabled { opacity: 0.72; cursor: not-allowed; }
+.family-color-setting > .fc-muted { font-size: 0.85rem; }
 
 /* ---------- Familles : tuiles ---------- */
 .family-switch { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.15rem; padding: 0.3rem 0.75rem; min-height: 36px; border-radius: 999px; background: var(--fc-surface); border: 1.5px solid var(--fc-border); color: var(--fc-text); font-weight: 600; font-size: 0.9rem; text-decoration: none; }

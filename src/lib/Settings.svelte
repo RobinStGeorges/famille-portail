@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
   import {
     createInvite,
     formatInviteCode,
     getThemeChoice,
+    getServices,
     setThemeChoice,
     signOutUser,
     toFrenchMessage,
@@ -10,6 +12,7 @@
     type Member,
     type ThemeChoice,
   } from 'famille-core';
+  import { FAMILY_TILE_COLORS, isFamilyTileColor, tileColor } from './colors';
 
   let {
     familyId,
@@ -24,10 +27,24 @@
   let invite = $state<{ code: string; expiresAt: Date } | null>(null);
   let copied = $state(false);
   let busy = $state(false);
+  let colorBusy = $state(false);
+  let familyTileColor = $state<string>(FAMILY_TILE_COLORS[0]);
   let error = $state('');
 
   $effect(() => {
     return watchMembers(familyId, (list) => (members = list));
+  });
+
+  $effect(() => {
+    try {
+      const { db } = getServices();
+      return onSnapshot(doc(db, 'families', familyId), (snap) => {
+        const stored = snap.data()?.tileColor;
+        familyTileColor = isFamilyTileColor(stored) ? stored : tileColor(familyName);
+      });
+    } catch {
+      return;
+    }
   });
 
   function chooseTheme(t: ThemeChoice) {
@@ -58,6 +75,20 @@
     }
   }
 
+  async function chooseFamilyColor(color: (typeof FAMILY_TILE_COLORS)[number]) {
+    if (!isOwner || colorBusy || color === familyTileColor) return;
+    error = '';
+    colorBusy = true;
+    try {
+      const { db } = getServices();
+      await updateDoc(doc(db, 'families', familyId), { tileColor: color });
+    } catch (e) {
+      error = toFrenchMessage(e);
+    } finally {
+      colorBusy = false;
+    }
+  }
+
   const themes: { id: ThemeChoice; label: string }[] = [
     { id: 'auto', label: 'Auto' },
     { id: 'light', label: 'Clair' },
@@ -79,6 +110,29 @@
 
   <section class="fc-card stack">
     <h2>Espace familial : {familyName}</h2>
+    <div class="family-color-setting">
+      <strong>Couleur de la tuile</strong>
+      <div class="family-color-palette" role="radiogroup" aria-label={`Couleur de la famille ${familyName}`}>
+        {#each FAMILY_TILE_COLORS as color (color)}
+          <button
+            class="family-color-swatch"
+            class:selected={familyTileColor === color}
+            style:--swatch={color}
+            type="button"
+            role="radio"
+            aria-checked={familyTileColor === color}
+            aria-label={`Choisir la couleur ${color}`}
+            disabled={!isOwner || colorBusy}
+            onclick={() => chooseFamilyColor(color)}
+          ></button>
+        {/each}
+      </div>
+      {#if isOwner}
+        <span class="fc-muted">Cette couleur est partagée par les membres de la famille.</span>
+      {:else}
+        <span class="fc-muted">Seul le propriétaire peut changer cette couleur.</span>
+      {/if}
+    </div>
     <div>
       {#each members as m (m.uid)}
         <div class="member">
